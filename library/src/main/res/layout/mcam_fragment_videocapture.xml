@@ -1,23 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rootFrame"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:foreground="?selectableItemBackground">
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/rootFrame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:foreground="?selectableItemBackground">
 
     <include
         layout="@layout/mcam_include_camera_preview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/controlsFrame" />
+        android:layout_height="match_parent"/>
+
+    <RelativeLayout
+        android:id="@+id/top_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@android:color/black"/>
 
     <RelativeLayout
         android:id="@+id/controlsFrame"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="?colorPrimaryDark"
+        android:background="@android:color/black"
         android:elevation="@dimen/mcam_toolbar_elevation"
         android:paddingBottom="@dimen/mcam_content_inset_less"
         android:paddingLeft="@dimen/mcam_content_inset"
@@ -36,7 +42,7 @@
             android:padding="@dimen/mcam_content_inset_less"
             android:scaleType="fitXY"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/mcam_camera_front" />
+            tools:src="@drawable/mcam_camera_front"/>
 
         <ImageButton
             android:id="@+id/flash"
@@ -50,7 +56,7 @@
             android:scaleType="fitXY"
             android:visibility="gone"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/mcam_action_flash" />
+            tools:src="@drawable/mcam_action_flash"/>
 
         <ImageButton
             android:id="@+id/video"
@@ -62,7 +68,7 @@
             android:padding="@dimen/mcam_content_inset_less"
             android:scaleType="fitXY"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/mcam_action_capture" />
+            tools:src="@drawable/mcam_action_capture"/>
 
         <ImageButton
             android:id="@+id/stillshot"
@@ -75,7 +81,7 @@
             android:scaleType="fitXY"
             android:visibility="gone"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/mcam_action_stillshot" />
+            tools:src="@drawable/mcam_action_stillshot"/>
 
         <TextView
             android:id="@+id/recordDuration"
@@ -87,7 +93,7 @@
             android:fontFamily="sans-serif-medium"
             android:text="@string/mcam_defaultDuration"
             android:textColor="#fff"
-            android:textSize="@dimen/mcam_regular_content_fontsize" />
+            android:textSize="@dimen/mcam_regular_content_fontsize"/>
 
     </RelativeLayout>
 
@@ -102,6 +108,6 @@
         android:text="5"
         android:textColor="#fff"
         android:textSize="@dimen/mcam_regular_header_fontsize"
-        tools:ignore="HardcodedText,UnusedAttribute" />
+        tools:ignore="HardcodedText,UnusedAttribute"/>
 
 </RelativeLayout>

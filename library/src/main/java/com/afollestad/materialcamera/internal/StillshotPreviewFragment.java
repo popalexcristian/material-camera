@@ -2,6 +2,7 @@ package com.afollestad.materialcamera.internal;
 
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
+
 import com.afollestad.materialcamera.R;
 import com.afollestad.materialcamera.util.ImageUtil;
 
@@ -42,7 +44,7 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
   }
 
   @Override
-  public void onViewCreated(View view, Bundle savedInstanceState) {
+  public void onViewCreated(final View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
     mImageView = (ImageView) view.findViewById(R.id.stillshot_imageview);
 
@@ -52,18 +54,43 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
     mRetry.setOnClickListener(this);
     mConfirm.setOnClickListener(this);
 
-    mImageView
-        .getViewTreeObserver()
-        .addOnPreDrawListener(
-            new ViewTreeObserver.OnPreDrawListener() {
-              @Override
-              public boolean onPreDraw() {
-                setImageBitmap();
-                mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
+    final View controlsFrame = view.findViewById(R.id.controlsFrame);
+    final View topContainer = view.findViewById(R.id.top_container);
 
-                return true;
-              }
-            });
+    view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+      @Override
+      public void onGlobalLayout() {
+        if (view.getWidth() != 0 && view.getHeight() != 0) {
+          int height = view.getHeight() - view.getWidth();
+          ViewGroup.LayoutParams p = controlsFrame.getLayoutParams();
+          ViewGroup.LayoutParams p2 = topContainer.getLayoutParams();
+          p.height = height / 2;
+          p2.height = height / 2;
+          controlsFrame.setLayoutParams(p);
+          topContainer.setLayoutParams(p2);
+          setImageBitmap();
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+          view.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+        } else {
+          view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+        }
+      }
+    });
+
+//    mImageView
+//        .getViewTreeObserver()
+//        .addOnPreDrawListener(
+//            new ViewTreeObserver.OnPreDrawListener() {
+//              @Override
+//              public boolean onPreDraw() {
+//                setImageBitmap();
+//                mImageView.getViewTreeObserver().removeOnPreDrawListener(this);
+//
+//                return true;
+//              }
+//            });
   }
 
   @Override

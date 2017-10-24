@@ -1,22 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:foreground="?selectableItemBackground"
-    tools:ignore="UnusedAttribute">
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:foreground="?selectableItemBackground"
+             tools:ignore="UnusedAttribute">
 
     <ImageView
         android:id="@+id/stillshot_imageview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
+
+    <LinearLayout
+        android:id="@+id/top_container"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_gravity="top"
+        android:background="@android:color/black"
+        android:orientation="vertical"/>
 
     <LinearLayout
         android:id="@+id/controlsFrame"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
         android:layout_gravity="bottom"
+        android:background="@android:color/black"
         android:orientation="vertical"
+
         android:paddingBottom="@dimen/mcam_content_inset_less"
         android:paddingLeft="@dimen/mcam_content_inset"
         android:paddingRight="@dimen/mcam_content_inset"
@@ -40,7 +50,7 @@
                 android:scaleType="fitXY"
                 android:text="@string/mcam_retry"
                 android:textColor="#fff"
-                android:textSize="@dimen/mcam_regular_title_fontsize" />
+                android:textSize="@dimen/mcam_regular_title_fontsize"/>
 
             <Button
                 android:id="@+id/confirm"
@@ -53,7 +63,7 @@
                 android:scaleType="fitXY"
                 android:text="@string/mcam_use_stillshot"
                 android:textColor="#fff"
-                android:textSize="@dimen/mcam_regular_title_fontsize" />
+                android:textSize="@dimen/mcam_regular_title_fontsize"/>
 
         </FrameLayout>
 
