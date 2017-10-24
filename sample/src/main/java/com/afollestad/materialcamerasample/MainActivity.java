@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             materialCamera
                     .stillShot() // launches the Camera in stillshot mode
                     .videoPreferredAspect(16f / 9f)
+
                     .labelConfirm(R.string.mcam_use_stillshot);
         materialCamera.start(CAMERA_RQ);
     }
