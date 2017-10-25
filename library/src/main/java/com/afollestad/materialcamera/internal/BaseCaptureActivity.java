@@ -379,9 +379,11 @@ public abstract class BaseCaptureActivity extends AppCompatActivity
     }
 
     private void deleteOutputFile(@Nullable String uri) {
-        if (uri != null)
+        if (uri != null) {
             //noinspection ResultOfMethodCallIgnored
             new File(Uri.parse(uri).getPath()).delete();
+            mPhotoPath = null;
+        }
     }
 
     @Override
