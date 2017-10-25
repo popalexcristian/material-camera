@@ -1,12 +1,5 @@
 package com.afollestad.materialcamera.internal;
 
-import static com.afollestad.materialcamera.internal.BaseCaptureActivity.CAMERA_POSITION_BACK;
-import static com.afollestad.materialcamera.internal.BaseCaptureActivity.CAMERA_POSITION_FRONT;
-import static com.afollestad.materialcamera.internal.BaseCaptureActivity.CAMERA_POSITION_UNKNOWN;
-import static com.afollestad.materialcamera.internal.BaseCaptureActivity.FLASH_MODE_ALWAYS_ON;
-import static com.afollestad.materialcamera.internal.BaseCaptureActivity.FLASH_MODE_AUTO;
-import static com.afollestad.materialcamera.internal.BaseCaptureActivity.FLASH_MODE_OFF;
-
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -48,11 +41,13 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.Toast;
+
 import com.afollestad.materialcamera.R;
 import com.afollestad.materialcamera.util.CameraUtil;
 import com.afollestad.materialcamera.util.Degrees;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -64,6 +59,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+
+import static com.afollestad.materialcamera.internal.BaseCaptureActivity.CAMERA_POSITION_BACK;
+import static com.afollestad.materialcamera.internal.BaseCaptureActivity.CAMERA_POSITION_FRONT;
+import static com.afollestad.materialcamera.internal.BaseCaptureActivity.CAMERA_POSITION_UNKNOWN;
+import static com.afollestad.materialcamera.internal.BaseCaptureActivity.FLASH_MODE_ALWAYS_ON;
+import static com.afollestad.materialcamera.internal.BaseCaptureActivity.FLASH_MODE_AUTO;
+import static com.afollestad.materialcamera.internal.BaseCaptureActivity.FLASH_MODE_OFF;
 
 /** @author Aidan Follestad (afollestad) */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -446,20 +448,20 @@ public class Camera2Fragment extends BaseCameraFragment implements View.OnClickL
 
       switch (mInterface.getCurrentCameraPosition()) {
         case CAMERA_POSITION_FRONT:
-          setImageRes(mButtonFacing, mInterface.iconRearCamera());
+//          setImageRes(mButtonFacing, mInterface.iconRearCamera());
           break;
         case CAMERA_POSITION_BACK:
-          setImageRes(mButtonFacing, mInterface.iconFrontCamera());
+//          setImageRes(mButtonFacing, mInterface.iconFrontCamera());
           break;
         case CAMERA_POSITION_UNKNOWN:
         default:
           if (getArguments().getBoolean(CameraIntentKey.DEFAULT_TO_FRONT_FACING, false)) {
             // Check front facing first
             if (mInterface.getFrontCamera() != null) {
-              setImageRes(mButtonFacing, mInterface.iconRearCamera());
+//              setImageRes(mButtonFacing, mInterface.iconRearCamera());
               mInterface.setCameraPosition(CAMERA_POSITION_FRONT);
             } else {
-              setImageRes(mButtonFacing, mInterface.iconFrontCamera());
+//              setImageRes(mButtonFacing, mInterface.iconFrontCamera());
               if (mInterface.getBackCamera() != null)
                 mInterface.setCameraPosition(CAMERA_POSITION_BACK);
               else mInterface.setCameraPosition(CAMERA_POSITION_UNKNOWN);
@@ -467,10 +469,10 @@ public class Camera2Fragment extends BaseCameraFragment implements View.OnClickL
           } else {
             // Check back facing first
             if (mInterface.getBackCamera() != null) {
-              setImageRes(mButtonFacing, mInterface.iconFrontCamera());
+//              setImageRes(mButtonFacing, mInterface.iconFrontCamera());
               mInterface.setCameraPosition(CAMERA_POSITION_BACK);
             } else {
-              setImageRes(mButtonFacing, mInterface.iconRearCamera());
+//              setImageRes(mButtonFacing, mInterface.iconRearCamera());
               if (mInterface.getFrontCamera() != null)
                 mInterface.setCameraPosition(CAMERA_POSITION_FRONT);
               else mInterface.setCameraPosition(CAMERA_POSITION_UNKNOWN);

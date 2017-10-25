@@ -36,7 +36,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import java.io.File;
 
 import static android.app.Activity.RESULT_CANCELED;
-import static com.afollestad.materialcamera.internal.BaseCaptureActivity.CAMERA_POSITION_BACK;
 import static com.afollestad.materialcamera.internal.BaseCaptureActivity.FLASH_MODE_ALWAYS_ON;
 import static com.afollestad.materialcamera.internal.BaseCaptureActivity.FLASH_MODE_AUTO;
 import static com.afollestad.materialcamera.internal.BaseCaptureActivity.FLASH_MODE_OFF;
@@ -53,6 +52,7 @@ abstract class BaseCameraFragment extends Fragment
     protected ImageButton mButtonFlash;
     protected TextView mRecordDuration;
     protected TextView mDelayStartCountdown;
+    protected ImageButton mClose;
 
     private boolean mIsRecording;
     protected String mOutputUri;
@@ -115,6 +115,7 @@ abstract class BaseCameraFragment extends Fragment
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mClose = (ImageButton) view.findViewById(R.id.close);
         mDelayStartCountdown = (TextView) view.findViewById(R.id.delayStartCountdown);
         mButtonVideo = (ImageButton) view.findViewById(R.id.video);
         mButtonStillshot = (ImageButton) view.findViewById(R.id.stillshot);
@@ -123,31 +124,30 @@ abstract class BaseCameraFragment extends Fragment
         if (mInterface.shouldHideCameraFacing() || CameraUtil.isChromium()) {
             mButtonFacing.setVisibility(View.GONE);
         } else {
-            setImageRes(
-                    mButtonFacing,
-                    mInterface.getCurrentCameraPosition() == CAMERA_POSITION_BACK
-                            ? mInterface.iconFrontCamera()
-                            : mInterface.iconRearCamera());
+//            setImageRes(
+//                    mButtonFacing,
+//                    mInterface.getCurrentCameraPosition() == CAMERA_POSITION_BACK
+//                            ? mInterface.iconFrontCamera()
+//                            : mInterface.iconRearCamera());
         }
 
         mButtonFlash = (ImageButton) view.findViewById(R.id.flash);
         setupFlashMode();
 
-        mButtonVideo.setOnClickListener(this);
+//        mButtonVideo.setOnClickListener(this);
         mButtonStillshot.setOnClickListener(this);
         mButtonFacing.setOnClickListener(this);
         mButtonFlash.setOnClickListener(this);
+        mClose.setOnClickListener(this);
 
         int primaryColor = getArguments().getInt(CameraIntentKey.PRIMARY_COLOR);
         if (CameraUtil.isColorDark(primaryColor)) {
             mIconTextColor = ContextCompat.getColor(getActivity(), R.color.mcam_color_light);
-            primaryColor = CameraUtil.darkenColor(primaryColor);
         } else {
             mIconTextColor = ContextCompat.getColor(getActivity(), R.color.mcam_color_dark);
         }
         final View controlsFrame = view.findViewById(R.id.controlsFrame);
         final View topContainer = view.findViewById(R.id.top_container);
-        controlsFrame.setBackgroundColor(primaryColor);
         mRecordDuration.setTextColor(mIconTextColor);
 
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -157,8 +157,8 @@ abstract class BaseCameraFragment extends Fragment
                     int height = view.getHeight() - view.getWidth();
                     ViewGroup.LayoutParams p = controlsFrame.getLayoutParams();
                     ViewGroup.LayoutParams p2 = topContainer.getLayoutParams();
-                    p.height = height / 2;
-                    p2.height = height / 2;
+                    p.height = height - height / 4;
+                    p2.height = height / 4;
                     controlsFrame.setLayoutParams(p);
                     topContainer.setLayoutParams(p2);
                 }
@@ -184,7 +184,6 @@ abstract class BaseCameraFragment extends Fragment
             mButtonVideo.setVisibility(View.GONE);
             mRecordDuration.setVisibility(View.GONE);
             mButtonStillshot.setVisibility(View.VISIBLE);
-            setImageRes(mButtonStillshot, mInterface.iconStillshot());
             mButtonFlash.setVisibility(View.VISIBLE);
         }
 
@@ -426,11 +425,11 @@ abstract class BaseCameraFragment extends Fragment
         final int id = view.getId();
         if (id == R.id.facing) {
             mInterface.toggleCameraPosition();
-            setImageRes(
-                    mButtonFacing,
-                    mInterface.getCurrentCameraPosition() == BaseCaptureActivity.CAMERA_POSITION_BACK
-                            ? mInterface.iconFrontCamera()
-                            : mInterface.iconRearCamera());
+//            setImageRes(
+//                    mButtonFacing,
+//                    mInterface.getCurrentCameraPosition() == BaseCaptureActivity.CAMERA_POSITION_BACK
+//                            ? mInterface.iconFrontCamera()
+//                            : mInterface.iconRearCamera());
             closeCamera();
             openCamera();
             setupFlashMode();
@@ -464,6 +463,8 @@ abstract class BaseCameraFragment extends Fragment
             takeStillshot();
         } else if (id == R.id.flash) {
             invalidateFlash(true);
+        } else if (id == R.id.close) {
+            getActivity().finish();
         }
     }
 

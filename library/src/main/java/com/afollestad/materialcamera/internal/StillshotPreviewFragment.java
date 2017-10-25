@@ -64,8 +64,8 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
           int height = view.getHeight() - view.getWidth();
           ViewGroup.LayoutParams p = controlsFrame.getLayoutParams();
           ViewGroup.LayoutParams p2 = topContainer.getLayoutParams();
-          p.height = height / 2;
-          p2.height = height / 2;
+          p.height = height - height / 4;
+          p2.height = height / 4;
           controlsFrame.setLayoutParams(p);
           topContainer.setLayoutParams(p2);
           setImageBitmap();
