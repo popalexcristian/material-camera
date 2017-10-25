@@ -11,62 +11,40 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-    <LinearLayout
-        android:id="@+id/top_container"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_gravity="top"
-        android:background="@android:color/black"
-        android:orientation="vertical"/>
-
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/controlsFrame"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_gravity="bottom"
         android:background="@android:color/black"
         android:orientation="vertical"
-
         android:paddingBottom="@dimen/mcam_content_inset_less"
         android:paddingLeft="@dimen/mcam_content_inset"
         android:paddingRight="@dimen/mcam_content_inset"
         android:paddingTop="@dimen/mcam_content_inset_less">
 
-        <FrameLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/confirm"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="start|bottom"
-            tools:ignore="UselessParent">
+            android:layout_centerInParent="true"
+            tools:src="@drawable/confirm_photo_btn"/>
+    </RelativeLayout>
 
-            <Button
-                android:id="@+id/retry"
-                style="?borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|start"
-                android:background="@drawable/mcam_square_selector"
-                android:fontFamily="sans-serif-medium"
-                android:padding="@dimen/mcam_content_inset_less"
-                android:scaleType="fitXY"
-                android:text="@string/mcam_retry"
-                android:textColor="#fff"
-                android:textSize="@dimen/mcam_regular_title_fontsize"/>
+    <RelativeLayout
+        android:id="@+id/top_container"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="@android:color/black"
+        android:paddingBottom="@dimen/mcam_content_inset_less"
+        android:paddingLeft="@dimen/mcam_content_inset"
+        android:paddingRight="@dimen/mcam_content_inset"
+        android:paddingTop="@dimen/mcam_content_inset_less">
 
-            <Button
-                android:id="@+id/confirm"
-                style="?borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical|end"
-                android:background="@drawable/mcam_square_selector"
-                android:padding="@dimen/mcam_content_inset_less"
-                android:scaleType="fitXY"
-                android:text="@string/mcam_use_stillshot"
-                android:textColor="#fff"
-                android:textSize="@dimen/mcam_regular_title_fontsize"/>
-
-        </FrameLayout>
-
-    </LinearLayout>
-
+        <ImageView
+            android:id="@+id/retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
 </FrameLayout>

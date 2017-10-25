@@ -26,9 +26,21 @@
             android:id="@+id/close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:layout_centerVertical="true"
             android:background="@drawable/close_btn"
             tools:background="@drawable/close_btn"/>
+
+        <ImageButton
+            android:id="@+id/flash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/mcam_circle_selector"
+            tools:ignore="ContentDescription"/>
 
     </RelativeLayout>
 
@@ -45,20 +57,6 @@
         android:paddingRight="@dimen/mcam_content_inset"
         android:paddingTop="@dimen/mcam_content_inset_less"
         tools:ignore="UnusedAttribute">
-
-        <ImageButton
-            android:id="@+id/flash"
-            android:layout_width="@dimen/mcam_action_icon_size_smaller"
-            android:layout_height="@dimen/mcam_action_icon_size_smaller"
-            android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/facing"
-            android:layout_toRightOf="@+id/facing"
-            android:background="@drawable/mcam_circle_selector"
-            android:padding="@dimen/mcam_content_inset_less"
-            android:scaleType="fitXY"
-            android:visibility="gone"
-            tools:ignore="ContentDescription"
-            tools:src="@drawable/mcam_action_flash"/>
 
         <ImageButton
             android:id="@+id/video"

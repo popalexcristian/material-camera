@@ -23,11 +23,13 @@ import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
 import com.afollestad.materialcamera.MaterialCamera;
 import com.afollestad.materialcamera.R;
 import com.afollestad.materialcamera.TimeLimitReachedException;
 import com.afollestad.materialcamera.util.CameraUtil;
 import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -553,20 +555,20 @@ public abstract class BaseCaptureActivity extends AppCompatActivity
   @Override
   public int iconFlashAuto() {
     return getIntent()
-        .getIntExtra(CameraIntentKey.ICON_FLASH_AUTO, R.drawable.mcam_action_flash_auto);
+            .getIntExtra(CameraIntentKey.ICON_FLASH_AUTO, R.drawable.flash_icon_active_auto);
   }
 
   @DrawableRes
   @Override
   public int iconFlashOn() {
-    return getIntent().getIntExtra(CameraIntentKey.ICON_FLASH_ON, R.drawable.mcam_action_flash);
+    return getIntent().getIntExtra(CameraIntentKey.ICON_FLASH_ON, R.drawable.flash_icon_active);
   }
 
   @DrawableRes
   @Override
   public int iconFlashOff() {
     return getIntent()
-        .getIntExtra(CameraIntentKey.ICON_FLASH_OFF, R.drawable.mcam_action_flash_off);
+            .getIntExtra(CameraIntentKey.ICON_FLASH_OFF, R.drawable.flash_icon_normal);
   }
 
   @Override

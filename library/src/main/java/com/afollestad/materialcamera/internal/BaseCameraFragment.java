@@ -5,9 +5,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.res.ColorStateList;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.RippleDrawable;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,8 +12,6 @@ import android.os.Handler;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.content.res.AppCompatResources;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,15 +94,7 @@ abstract class BaseCameraFragment extends Fragment
     }
 
     protected void setImageRes(ImageView iv, @DrawableRes int res) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-                && iv.getBackground() instanceof RippleDrawable) {
-            RippleDrawable rd = (RippleDrawable) iv.getBackground();
-            rd.setColor(ColorStateList.valueOf(CameraUtil.adjustAlpha(mIconTextColor, 0.3f)));
-        }
-        Drawable d = AppCompatResources.getDrawable(iv.getContext(), res);
-        d = DrawableCompat.wrap(d.mutate());
-        DrawableCompat.setTint(d, mIconTextColor);
-        iv.setImageDrawable(d);
+        iv.setImageDrawable(ContextCompat.getDrawable(getActivity(), res));
     }
 
     @SuppressLint("SetTextI18n")
