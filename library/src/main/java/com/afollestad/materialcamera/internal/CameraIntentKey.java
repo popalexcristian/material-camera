@@ -43,4 +43,5 @@ public class CameraIntentKey {
   public static final String STILL_SHOT = "still_shot";
 
   public static final String AUTO_RECORD = "auto_record";
+  public static final String PHOTO_PATH_KEY = "photoPath";
 }
