@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import com.afollestad.materialcamera.R;
 import com.afollestad.materialcamera.util.ImageUtil;
 
+import static com.afollestad.materialcamera.internal.BaseCaptureActivity.CAMERA_POSITION_FRONT;
+
 public class StillshotPreviewFragment extends BaseGalleryFragment {
 
     private ImageView mImageView;
@@ -50,6 +52,14 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
 
         mRetry.setOnClickListener(this);
         mConfirm.setOnClickListener(this);
+
+        if (getActivity() instanceof BaseCaptureInterface) {
+            if (CAMERA_POSITION_FRONT == (((BaseCaptureInterface) getActivity()).getCurrentCameraPosition())) {
+                mImageView.setScaleX(-1);
+            } else {
+                mImageView.setScaleX(1);
+            }
+        }
 
         final View controlsFrame = view.findViewById(R.id.controlsFrame);
         final View topContainer = view.findViewById(R.id.top_container);
