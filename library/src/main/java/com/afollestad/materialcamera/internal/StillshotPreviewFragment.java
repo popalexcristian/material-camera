@@ -1,6 +1,5 @@
 package com.afollestad.materialcamera.internal;
 
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,7 +12,7 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
 import com.afollestad.materialcamera.R;
-import com.afollestad.materialcamera.util.ImageUtil;
+import com.bumptech.glide.Glide;
 
 import static com.afollestad.materialcamera.internal.BaseCaptureActivity.CAMERA_POSITION_FRONT;
 
@@ -25,8 +24,6 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
      * Reference to the bitmap, in case 'onConfigurationChange' event comes, so we do not recreate the
      * bitmap
      */
-    private static Bitmap mBitmap;
-
     public static StillshotPreviewFragment newInstance(
             String outputUri, boolean allowRetry, int primaryColor) {
         final StillshotPreviewFragment fragment = new StillshotPreviewFragment();
@@ -75,7 +72,8 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
                     p2.height = height / 4;
                     controlsFrame.setLayoutParams(p);
                     topContainer.setLayoutParams(p2);
-                    setImageBitmap();
+
+                    Glide.with(getActivity()).load(Uri.parse(mOutputUri).getPath()).into(mImageView);
 
                     mRetry.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.back_white_btn));
                     mConfirm.setImageDrawable(ContextCompat.getDrawable(getActivity(), R.drawable.confirm_photo_btn));
@@ -88,37 +86,6 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
                 }
             }
         });
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mBitmap != null && !mBitmap.isRecycled()) {
-            try {
-                mBitmap.recycle();
-                mBitmap = null;
-            } catch (Throwable t) {
-                t.printStackTrace();
-            }
-        }
-    }
-
-    /**
-     * Sets bitmap to ImageView widget
-     */
-    private void setImageBitmap() {
-        final int width = mImageView.getMeasuredWidth();
-        final int height = mImageView.getMeasuredHeight();
-
-        // TODO IMPROVE MEMORY USAGE HERE, ESPECIALLY ON LOW-END DEVICES.
-        if (mBitmap == null)
-            mBitmap = ImageUtil.getRotatedBitmap(Uri.parse(mOutputUri).getPath(), width, height);
-
-        if (mBitmap == null)
-            showDialog(
-                    getString(R.string.mcam_image_preview_error_title),
-                    getString(R.string.mcam_image_preview_error_message));
-        else mImageView.setImageBitmap(mBitmap);
     }
 
     @Override
