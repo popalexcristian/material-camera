@@ -1,8 +1,5 @@
 package com.afollestad.materialcamera.util;
 
-import static com.afollestad.materialcamera.util.Degrees.DEGREES_270;
-import static com.afollestad.materialcamera.util.Degrees.DEGREES_90;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -10,10 +7,15 @@ import android.media.ExifInterface;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
 import com.afollestad.materialcamera.ICallback;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import static com.afollestad.materialcamera.util.Degrees.DEGREES_270;
+import static com.afollestad.materialcamera.util.Degrees.DEGREES_90;
 
 /** Created by tomiurankar on 06/03/16. */
 public class ImageUtil {
@@ -85,7 +87,7 @@ public class ImageUtil {
         origBitmap, 0, 0, origBitmap.getWidth(), origBitmap.getHeight(), matrix, true);
   }
 
-  private static int calculateInSampleSize(
+  public static int calculateInSampleSize(
       BitmapFactory.Options options, int reqWidth, int reqHeight, int rotationInDegrees) {
 
     // Raw height and width of image
@@ -115,7 +117,7 @@ public class ImageUtil {
     return inSampleSize;
   }
 
-  private static int getExifDegreesFromJpeg(String inputFile) {
+  public static int getExifDegreesFromJpeg(String inputFile) {
     try {
       final ExifInterface exif = new ExifInterface(inputFile);
       final int exifOrientation =
