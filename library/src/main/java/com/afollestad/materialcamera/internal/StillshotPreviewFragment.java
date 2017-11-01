@@ -97,7 +97,6 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
         if (v.getId() == R.id.retry) {
             mInterface.onRetry(mOutputUri);
         } else if (v.getId() == R.id.confirm) {
-            mInterface.useMedia(mOutputUri);
             FileOutputStream out = null;
             try {
                 out = new FileOutputStream(Uri.parse(mOutputUri).getPath());
@@ -114,6 +113,7 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
                 }
             }
         }
+        mInterface.useMedia(mOutputUri);
     }
 
     @Override
