@@ -97,10 +97,11 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
         if (v.getId() == R.id.retry) {
             mInterface.onRetry(mOutputUri);
         } else if (v.getId() == R.id.confirm) {
+
             FileOutputStream out = null;
             try {
                 out = new FileOutputStream(Uri.parse(mOutputUri).getPath());
-                mBitmap.compress(Bitmap.CompressFormat.PNG, 100, out); // bmp is your Bitmap instance
+                mBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out); // bmp is your Bitmap instance
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
