@@ -107,14 +107,15 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
             } finally {
                 try {
                     if (out != null) {
+                        mInterface.useMedia(mOutputUri);
                         out.close();
                     }
                 } catch (IOException e) {
+                    mInterface.onRetry(mOutputUri);
                     e.printStackTrace();
                 }
             }
         }
-        mInterface.useMedia(mOutputUri);
     }
 
     @Override
