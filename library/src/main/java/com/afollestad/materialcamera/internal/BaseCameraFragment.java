@@ -5,10 +5,13 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.database.Cursor;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -31,6 +34,7 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import java.io.File;
 
 import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 import static com.afollestad.materialcamera.internal.BaseCaptureActivity.FLASH_MODE_ALWAYS_ON;
 import static com.afollestad.materialcamera.internal.BaseCaptureActivity.FLASH_MODE_AUTO;
 import static com.afollestad.materialcamera.internal.BaseCaptureActivity.FLASH_MODE_OFF;
@@ -41,10 +45,13 @@ import static com.afollestad.materialcamera.internal.BaseCaptureActivity.FLASH_M
 abstract class BaseCameraFragment extends Fragment
         implements CameraUriInterface, View.OnClickListener {
 
+    public static final int SELECT_FILE = 102;
+
     protected ImageButton mButtonVideo;
     protected ImageButton mButtonStillshot;
     protected ImageButton mButtonFacing;
     protected ImageButton mButtonFlash;
+    protected ImageButton mGalleryButton;
     protected TextView mRecordDuration;
     protected TextView mDelayStartCountdown;
     protected ImageButton mClose;
@@ -108,6 +115,7 @@ abstract class BaseCameraFragment extends Fragment
         mButtonStillshot = (ImageButton) view.findViewById(R.id.stillshot);
         mRecordDuration = (TextView) view.findViewById(R.id.recordDuration);
         mButtonFacing = (ImageButton) view.findViewById(R.id.facing);
+        mGalleryButton = (ImageButton) view.findViewById(R.id.gallery);
         if (mInterface.shouldHideCameraFacing() || CameraUtil.isChromium()) {
             mButtonFacing.setVisibility(View.GONE);
         } else {
@@ -126,6 +134,7 @@ abstract class BaseCameraFragment extends Fragment
         mButtonFacing.setOnClickListener(this);
         mButtonFlash.setOnClickListener(this);
         mClose.setOnClickListener(this);
+        mGalleryButton.setOnClickListener(this);
 
         int primaryColor = getArguments().getInt(CameraIntentKey.PRIMARY_COLOR);
         if (CameraUtil.isColorDark(primaryColor)) {
@@ -452,7 +461,18 @@ abstract class BaseCameraFragment extends Fragment
             invalidateFlash(true);
         } else if (id == R.id.close) {
             getActivity().finish();
+        } else if (id == R.id.gallery) {
+            selectPhoto();
         }
+    }
+
+    private void selectPhoto() {
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        if (getActivity() instanceof StartGallery) {
+            ((StartGallery) getActivity()).setIsPickingFromGallery(true);
+        }
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_file)), SELECT_FILE);
     }
 
     private void invalidateFlash(boolean toggle) {
@@ -483,5 +503,37 @@ abstract class BaseCameraFragment extends Fragment
         }
 
         setImageRes(mButtonFlash, res);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (getActivity() instanceof StartGallery) {
+            ((StartGallery) getActivity()).setIsPickingFromGallery(false);
+        }
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == SELECT_FILE) {
+                Uri mCapturedImageURI = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                Cursor cursor = getActivity().getContentResolver().query(mCapturedImageURI, filePathColumn, null, null, null);
+                try {
+                    if (cursor != null) {
+                        cursor.moveToFirst();
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        String picturePath = cursor.getString(columnIndex);
+                        cursor.close();
+                        mInterface.onShowStillshot(picturePath);
+                    }
+                } catch (Exception e) {
+                    Log.e("error", e.getMessage());
+                }
+            }
+        }
+    }
+
+    public interface StartGallery {
+        void setIsPickingFromGallery(boolean isPicking);
     }
 }

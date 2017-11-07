@@ -1,6 +1,5 @@
 package com.afollestad.materialcamera.internal;
 
-import android.Manifest;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.DialogInterface;
@@ -16,8 +15,6 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.text.TextUtils;
@@ -36,11 +33,17 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
+import static com.afollestad.materialcamera.util.CameraHelper.checkCameraPermission;
+import static com.afollestad.materialcamera.util.CameraHelper.checkStoragePermission;
+import static com.afollestad.materialcamera.util.CameraHelper.requestBothPermissions;
+import static com.afollestad.materialcamera.util.CameraHelper.requestCameraPermission;
+import static com.afollestad.materialcamera.util.CameraHelper.requestReadStoragePermission;
+
 /**
  * @author Aidan Follestad (afollestad)
  */
 public abstract class BaseCaptureActivity extends AppCompatActivity
-        implements BaseCaptureInterface {
+        implements BaseCaptureInterface, BaseCameraFragment.StartGallery {
 
     private int mCameraPosition = CAMERA_POSITION_UNKNOWN;
     private int mFlashMode = FLASH_MODE_OFF;
@@ -55,6 +58,7 @@ public abstract class BaseCaptureActivity extends AppCompatActivity
     private String mPhotoPath;
 
     public static final int PERMISSION_RC = 69;
+    private boolean misPickingFromGallery = false;
 
     @IntDef({CAMERA_POSITION_UNKNOWN, CAMERA_POSITION_BACK, CAMERA_POSITION_FRONT})
     @Retention(RetentionPolicy.SOURCE)
@@ -165,39 +169,26 @@ public abstract class BaseCaptureActivity extends AppCompatActivity
             showInitialRecorder();
             return;
         }
-        final boolean cameraGranted =
-                ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                        == PackageManager.PERMISSION_GRANTED;
-        final boolean audioGranted =
-                ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
-                        == PackageManager.PERMISSION_GRANTED;
-        final boolean audioNeeded = !useStillshot() && !audioDisabled();
 
-        String[] perms = null;
-        if (cameraGranted) {
-            if (audioNeeded && !audioGranted) {
-                perms = new String[]{Manifest.permission.RECORD_AUDIO};
-            }
-        } else {
-            if (audioNeeded && !audioGranted) {
-                perms = new String[]{Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO};
-            } else {
-                perms = new String[]{Manifest.permission.CAMERA};
-            }
-        }
-
-        if (perms != null) {
-            ActivityCompat.requestPermissions(this, perms, PERMISSION_RC);
-            mRequestingPermission = true;
-        } else {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkStoragePermission(this) && checkCameraPermission(this))
+                showInitialRecorder();
+            else if (!checkCameraPermission(this) && !checkStoragePermission(this))
+                requestBothPermissions(this);
+            else if (!checkCameraPermission(this))
+                requestCameraPermission(this);
+            else
+                requestReadStoragePermission(this);
+        } else
             showInitialRecorder();
-        }
     }
 
     @Override
     protected final void onPause() {
         super.onPause();
-        if (!isFinishing() && !isChangingConfigurations() && !mRequestingPermission) finish();
+        if (!isFinishing() && !isChangingConfigurations() && !mRequestingPermission && !misPickingFromGallery) {
+            finish();
+        }
     }
 
     @Override
@@ -613,5 +604,10 @@ public abstract class BaseCaptureActivity extends AppCompatActivity
     @Override
     public boolean shouldHideCameraFacing() {
         return !getIntent().getBooleanExtra(CameraIntentKey.ALLOW_CHANGE_CAMERA, false);
+    }
+
+    @Override
+    public void setIsPickingFromGallery(boolean isPicking) {
+        misPickingFromGallery = isPicking;
     }
 }

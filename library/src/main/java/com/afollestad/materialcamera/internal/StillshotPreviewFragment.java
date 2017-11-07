@@ -19,7 +19,6 @@ import com.afollestad.materialcamera.R;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import static com.afollestad.materialcamera.internal.BaseCaptureActivity.CAMERA_POSITION_FRONT;
 import static com.afollestad.materialcamera.util.ImageUtil.getExifDegreesFromJpeg;
 
 public class StillshotPreviewFragment extends BaseGalleryFragment {
@@ -53,13 +52,6 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
         mRetry.setOnClickListener(this);
         mConfirm.setOnClickListener(this);
 
-        if (getActivity() instanceof BaseCaptureInterface) {
-            if (CAMERA_POSITION_FRONT == (((BaseCaptureInterface) getActivity()).getCurrentCameraPosition())) {
-                mImageView.setScaleX(-1);
-            } else {
-                mImageView.setScaleX(1);
-            }
-        }
 
         final View controlsFrame = view.findViewById(R.id.controlsFrame);
         final View topContainer = view.findViewById(R.id.top_container);
