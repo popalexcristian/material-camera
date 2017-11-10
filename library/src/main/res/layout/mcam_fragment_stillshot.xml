@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:foreground="?selectableItemBackground"
              tools:ignore="UnusedAttribute">
 
-    <ImageView
+    <com.afollestad.materialcamera.util.InteractableCropView
         android:id="@+id/stillshot_imageview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:cropviewViewportOverlayColor="@android:color/black"
+        app:cropviewViewportRatio="1"/>
 
     <RelativeLayout
         android:id="@+id/controlsFrame"
@@ -46,5 +49,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"/>
+
+        <ImageView
+            android:id="@+id/crop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="10dp"/>
     </RelativeLayout>
 </FrameLayout>

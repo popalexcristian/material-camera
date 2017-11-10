@@ -41,6 +41,7 @@ dependencies {
     compile 'com.afollestad.material-dialogs:core:' + versions.materialDialogs
     compile 'com.github.bumptech.glide:glide:4.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
+    compile 'com.lyft:scissors:1.1.1'
 }
 
 apply from: 'https://raw.githubusercontent.com/afollestad/aidanfollestad.com/master/android-lib-release.gradle'

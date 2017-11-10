@@ -19,6 +19,7 @@ public abstract class BaseGalleryFragment extends Fragment
     View mControlsFrame;
     ImageView mRetry;
     ImageView mConfirm;
+    ImageView mCrop;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -41,6 +42,8 @@ public abstract class BaseGalleryFragment extends Fragment
         mControlsFrame = view.findViewById(R.id.controlsFrame);
         mRetry = (ImageView) view.findViewById(R.id.retry);
         mConfirm = (ImageView) view.findViewById(R.id.confirm);
+        mCrop = (ImageView) view.findViewById(R.id.crop);
+        mCrop.setVisibility(View.GONE);
 
         mRetry.setVisibility(
                 getArguments().getBoolean(CameraIntentKey.ALLOW_RETRY, true) ? View.VISIBLE : View.GONE);
