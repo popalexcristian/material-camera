@@ -2,6 +2,7 @@ package com.afollestad.materialcamera.internal;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,6 +18,8 @@ import com.afollestad.materialcamera.util.InteractableCropView;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+
+import static com.afollestad.materialcamera.util.ImageUtil.getExifDegreesFromJpeg;
 
 public class StillshotPreviewFragment extends BaseGalleryFragment {
 
@@ -130,7 +133,18 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
     }
 
     private Bitmap getOriginalBitmap() {
+
         String path = Uri.parse(mOutputUri).getPath();
-        return BitmapFactory.decodeFile(path);
+        final int rotationInDegrees = getExifDegreesFromJpeg(path);
+
+        final Bitmap origBitmap = BitmapFactory.decodeFile(path);
+
+        if (origBitmap == null) return null;
+
+        Matrix matrix = new Matrix();
+        matrix.preRotate(rotationInDegrees);
+        Bitmap dstBmp;
+        dstBmp = Bitmap.createBitmap(origBitmap, 0, 0, origBitmap.getWidth(), origBitmap.getHeight(), matrix, true);
+        return dstBmp;
     }
 }
