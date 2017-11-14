@@ -133,7 +133,6 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
     }
 
     private Bitmap getOriginalBitmap() {
-
         String path = Uri.parse(mOutputUri).getPath();
         final int rotationInDegrees = getExifDegreesFromJpeg(path);
 
@@ -143,8 +142,7 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
 
         Matrix matrix = new Matrix();
         matrix.preRotate(rotationInDegrees);
-        Bitmap dstBmp;
-        dstBmp = Bitmap.createBitmap(origBitmap, 0, 0, origBitmap.getWidth(), origBitmap.getHeight(), matrix, true);
-        return dstBmp;
+
+        return Bitmap.createBitmap(origBitmap, 0, 0, origBitmap.getWidth(), origBitmap.getHeight(), matrix, true);
     }
 }
