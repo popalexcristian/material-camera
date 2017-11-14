@@ -1,5 +1,6 @@
 package com.afollestad.materialcamera.internal;
 
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -26,6 +27,8 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
     private InteractableCropView mImageView;
     private static Bitmap mBitmap;
     private boolean mIsCropping;
+    private int mRequestedOrientation;
+    private float mPreCropRatio;
 
     public static StillshotPreviewFragment newInstance(
             String outputUri, boolean allowRetry, int primaryColor) {
@@ -88,15 +91,29 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mRequestedOrientation = getActivity().getRequestedOrientation();
+        getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().setRequestedOrientation(mRequestedOrientation);
+    }
+
+    @Override
     public void onClick(View v) {
         if (v.getId() == R.id.crop) {
-            mIsCropping = !mIsCropping;
-            mImageView.setCropEnabled(mIsCropping);
-            mConfirm.setVisibility(mIsCropping ? View.GONE : View.VISIBLE);
-            mCrop.setImageResource(mIsCropping ? R.drawable.checkmark_ic : R.drawable.crop_ic);
-            mRetry.setVisibility(mIsCropping ? View.GONE : View.VISIBLE);
+            setIsCropping(!mIsCropping);
         } else if (v.getId() == R.id.retry) {
-            mInterface.onRetry(mOutputUri);
+            if (mIsCropping) {
+                setIsCropping(false);
+                mImageView.setViewportRatio(mPreCropRatio);
+            } else {
+                mInterface.onRetry(mOutputUri);
+            }
         } else if (v.getId() == R.id.confirm) {
 
             FileOutputStream out = null;
@@ -117,6 +134,14 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
                 }
             }
         }
+    }
+
+    private void setIsCropping(boolean isCropping) {
+        mIsCropping = isCropping;
+        mImageView.setCropEnabled(isCropping);
+        mPreCropRatio = mImageView.getViewportRatio();
+        mConfirm.setVisibility(isCropping ? View.GONE : View.VISIBLE);
+        mCrop.setImageResource(isCropping ? R.drawable.checkmark_ic : R.drawable.crop_ic);
     }
 
     @Override
