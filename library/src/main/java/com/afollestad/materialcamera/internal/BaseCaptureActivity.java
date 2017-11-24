@@ -33,6 +33,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
+import static com.afollestad.materialcamera.internal.CameraIntentKey.APP_COLOR_KEY;
 import static com.afollestad.materialcamera.util.CameraHelper.checkCameraPermission;
 import static com.afollestad.materialcamera.util.CameraHelper.checkStoragePermission;
 import static com.afollestad.materialcamera.util.CameraHelper.requestBothPermissions;
@@ -56,6 +57,7 @@ public abstract class BaseCaptureActivity extends AppCompatActivity
     private boolean mDidRecord = false;
     private List<Integer> mFlashModes;
     private String mPhotoPath;
+    private String mAppColor;
 
     public static final int PERMISSION_RC = 69;
     private boolean misPickingFromGallery = false;
@@ -121,8 +123,13 @@ public abstract class BaseCaptureActivity extends AppCompatActivity
         setContentView(R.layout.mcam_activity_videocapture);
 
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null && bundle.containsKey(CameraIntentKey.PHOTO_PATH_KEY)) {
-            mPhotoPath = bundle.getString(CameraIntentKey.PHOTO_PATH_KEY);
+        if (bundle != null) {
+            if (bundle.containsKey(CameraIntentKey.PHOTO_PATH_KEY)) {
+                mPhotoPath = bundle.getString(CameraIntentKey.PHOTO_PATH_KEY);
+            }
+            if (bundle.containsKey(APP_COLOR_KEY)) {
+                mAppColor = bundle.getString(APP_COLOR_KEY);
+            }
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -240,6 +247,11 @@ public abstract class BaseCaptureActivity extends AppCompatActivity
     }
 
     @Override
+    public String getAppColor() {
+        return mAppColor;
+    }
+
+    @Override
     public long getLengthLimit() {
         return mLengthLimit;
     }
@@ -307,6 +319,11 @@ public abstract class BaseCaptureActivity extends AppCompatActivity
         } else {
             getFragmentManager().beginTransaction().replace(R.id.container, createFragment()).commit();
         }
+    }
+
+    @Override
+    public String appColor() {
+        return mAppColor;
     }
 
     @Override

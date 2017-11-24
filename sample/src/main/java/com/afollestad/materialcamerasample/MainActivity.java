@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (view.getId() == R.id.launchCameraStillshot)
             materialCamera
+                    .appColor("#03A9F4")
                     .stillShot() // launches the Camera in stillshot mode
                     .videoPreferredAspect(16f / 9f)
 

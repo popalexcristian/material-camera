@@ -6,6 +6,9 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
@@ -48,7 +51,7 @@ abstract class BaseCameraFragment extends Fragment
     public static final int SELECT_FILE = 102;
 
     protected ImageButton mButtonVideo;
-    protected ImageButton mButtonStillshot;
+    protected ImageView mButtonStillshot;
     protected ImageButton mButtonFacing;
     protected ImageButton mButtonFlash;
     protected ImageButton mGalleryButton;
@@ -62,6 +65,7 @@ abstract class BaseCameraFragment extends Fragment
     protected Handler mPositionHandler;
     protected MediaRecorder mMediaRecorder;
     private int mIconTextColor;
+    private int mAppColor = -1;
 
     protected static void LOG(Object context, String message) {
         Log.d(
@@ -112,10 +116,11 @@ abstract class BaseCameraFragment extends Fragment
         mClose = (ImageButton) view.findViewById(R.id.close);
         mDelayStartCountdown = (TextView) view.findViewById(R.id.delayStartCountdown);
         mButtonVideo = (ImageButton) view.findViewById(R.id.video);
-        mButtonStillshot = (ImageButton) view.findViewById(R.id.stillshot);
+        mButtonStillshot = (ImageView) view.findViewById(R.id.stillshot);
         mRecordDuration = (TextView) view.findViewById(R.id.recordDuration);
         mButtonFacing = (ImageButton) view.findViewById(R.id.facing);
         mGalleryButton = (ImageButton) view.findViewById(R.id.gallery);
+
         if (mInterface.shouldHideCameraFacing() || CameraUtil.isChromium()) {
             mButtonFacing.setVisibility(View.GONE);
         } else {
@@ -187,6 +192,11 @@ abstract class BaseCameraFragment extends Fragment
             mDelayStartCountdown.setVisibility(View.GONE);
         } else {
             mDelayStartCountdown.setText(Long.toString(mInterface.autoRecordDelay() / 1000));
+        }
+
+        String stringColor = mInterface.getAppColor();
+        if ((stringColor != null) && !stringColor.isEmpty()) {
+            mAppColor = Color.parseColor(stringColor);
         }
     }
 
@@ -489,20 +499,25 @@ abstract class BaseCameraFragment extends Fragment
             mButtonFlash.setVisibility(View.VISIBLE);
         }
 
-        final int res;
+        final Drawable drawable;
         switch (mInterface.getFlashMode()) {
             case FLASH_MODE_AUTO:
-                res = mInterface.iconFlashAuto();
+                drawable = ContextCompat.getDrawable(getActivity(), mInterface.iconFlashAuto());
+                if (mAppColor != -1) {
+                    drawable.setColorFilter(mAppColor, PorterDuff.Mode.SRC_ATOP);
+                }
                 break;
             case FLASH_MODE_ALWAYS_ON:
-                res = mInterface.iconFlashOn();
+                drawable = ContextCompat.getDrawable(getActivity(), mInterface.iconFlashOn());
+                drawable.setColorFilter(mAppColor, PorterDuff.Mode.SRC_ATOP);
                 break;
             case FLASH_MODE_OFF:
             default:
-                res = mInterface.iconFlashOff();
+                drawable = ContextCompat.getDrawable(getActivity(), mInterface.iconFlashOff());
+                drawable.clearColorFilter();
         }
 
-        setImageRes(mButtonFlash, res);
+        mButtonFlash.setImageDrawable(drawable);
     }
 
     @Override

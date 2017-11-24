@@ -59,6 +59,7 @@ public class MaterialCamera {
     private boolean mAutoSubmit = false;
     private String mSaveDir;
     private String mPhotoPath;
+    private String mAppColor;
     private int mPrimaryColor;
     private boolean mShowPortraitWarning = true;
     private boolean mAllowChangeCamera = true;
@@ -115,6 +116,11 @@ public class MaterialCamera {
 
     public MaterialCamera countdownMillis(long lengthLimitMs) {
         mLengthLimit = lengthLimitMs;
+        return this;
+    }
+
+    public MaterialCamera appColor(String appColor) {
+        mAppColor = appColor;
         return this;
     }
 
@@ -350,7 +356,8 @@ public class MaterialCamera {
                         .putExtra(CameraIntentKey.STILL_SHOT, mStillShot)
                         .putExtra(CameraIntentKey.AUTO_RECORD, mAutoRecord)
                         .putExtra(PHOTO_PATH_KEY, mPhotoPath)
-                        .putExtra(CameraIntentKey.AUDIO_DISABLED, mAudioDisabled);
+                        .putExtra(CameraIntentKey.AUDIO_DISABLED, mAudioDisabled)
+                        .putExtra(CameraIntentKey.APP_COLOR_KEY, mAppColor);
 
         if (mVideoEncodingBitRate > 0)
             intent.putExtra(CameraIntentKey.VIDEO_BIT_RATE, mVideoEncodingBitRate);

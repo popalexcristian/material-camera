@@ -3,134 +3,144 @@ package com.afollestad.materialcamera.internal;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
+
 import java.util.List;
 
-/** @author Aidan Follestad (afollestad) */
+/**
+ * @author Aidan Follestad (afollestad)
+ */
 public interface BaseCaptureInterface {
 
-  void onRetry(@Nullable String outputUri);
+    void onRetry(@Nullable String outputUri);
 
-  void onShowPreview(@Nullable String outputUri, boolean countdownIsAtZero);
+    void onShowPreview(@Nullable String outputUri, boolean countdownIsAtZero);
 
-  void onShowStillshot(String outputUri);
+    void onShowStillshot(String outputUri);
 
-  void setRecordingStart(long start);
+    void setRecordingStart(long start);
 
-  void setRecordingEnd(long end);
+    void setRecordingEnd(long end);
 
-  long getRecordingStart();
+    long getRecordingStart();
 
-  long getRecordingEnd();
+    long getRecordingEnd();
 
-  boolean hasLengthLimit();
+    String getAppColor();
 
-  boolean countdownImmediately();
+    boolean hasLengthLimit();
 
-  long getLengthLimit();
+    boolean countdownImmediately();
 
-  void setCameraPosition(int position);
+    long getLengthLimit();
 
-  void toggleCameraPosition();
+    void setCameraPosition(int position);
 
-  Object getCurrentCameraId();
+    void toggleCameraPosition();
 
-  @BaseCaptureActivity.CameraPosition
-  int getCurrentCameraPosition();
+    Object getCurrentCameraId();
 
-  void setFrontCamera(Object id);
+    @BaseCaptureActivity.CameraPosition
+    int getCurrentCameraPosition();
 
-  void setBackCamera(Object id);
+    void setFrontCamera(Object id);
 
-  Object getFrontCamera();
+    void setBackCamera(Object id);
 
-  Object getBackCamera();
+    Object getFrontCamera();
 
-  void useMedia(String uri);
+    Object getBackCamera();
 
-  boolean shouldAutoSubmit();
+    void useMedia(String uri);
 
-  boolean allowRetry();
+    boolean shouldAutoSubmit();
 
-  void setDidRecord(boolean didRecord);
+    boolean allowRetry();
 
-  boolean didRecord();
+    void setDidRecord(boolean didRecord);
 
-  boolean restartTimerOnRetry();
+    boolean didRecord();
 
-  boolean continueTimerInPlayback();
+    boolean restartTimerOnRetry();
 
-  int videoEncodingBitRate(int defaultVal);
+    boolean continueTimerInPlayback();
 
-  int audioEncodingBitRate(int defaultVal);
+    int videoEncodingBitRate(int defaultVal);
 
-  int videoFrameRate(int defaultVal);
+    int audioEncodingBitRate(int defaultVal);
 
-  int videoPreferredHeight();
+    int videoFrameRate(int defaultVal);
 
-  float videoPreferredAspect();
+    int videoPreferredHeight();
 
-  long maxAllowedFileSize();
+    String appColor();
 
-  int qualityProfile();
+    float videoPreferredAspect();
 
-  @DrawableRes
-  int iconRecord();
+    long maxAllowedFileSize();
 
-  @DrawableRes
-  int iconStop();
+    int qualityProfile();
 
-  @DrawableRes
-  int iconFrontCamera();
+    @DrawableRes
+    int iconRecord();
 
-  @DrawableRes
-  int iconRearCamera();
+    @DrawableRes
+    int iconStop();
 
-  @DrawableRes
-  int iconPlay();
+    @DrawableRes
+    int iconFrontCamera();
 
-  @DrawableRes
-  int iconPause();
+    @DrawableRes
+    int iconRearCamera();
 
-  @DrawableRes
-  int iconRestart();
+    @DrawableRes
+    int iconPlay();
 
-  @StringRes
-  int labelRetry();
+    @DrawableRes
+    int iconPause();
 
-  @Deprecated
-  @StringRes
-  int labelUseVideo();
+    @DrawableRes
+    int iconRestart();
 
-  @StringRes
-  int labelConfirm();
+    @StringRes
+    int labelRetry();
 
-  @DrawableRes
-  int iconStillshot();
+    @Deprecated
+    @StringRes
+    int labelUseVideo();
 
-  /** @return true if we only want to take photographs instead of video capture */
-  boolean useStillshot();
+    @StringRes
+    int labelConfirm();
 
-  void toggleFlashMode();
+    @DrawableRes
+    int iconStillshot();
 
-  @BaseCaptureActivity.FlashMode
-  int getFlashMode();
+    /**
+     * @return true if we only want to take photographs instead of video capture
+     */
+    boolean useStillshot();
 
-  @DrawableRes
-  int iconFlashAuto();
+    void toggleFlashMode();
 
-  @DrawableRes
-  int iconFlashOn();
+    @BaseCaptureActivity.FlashMode
+    int getFlashMode();
 
-  @DrawableRes
-  int iconFlashOff();
+    @DrawableRes
+    int iconFlashAuto();
 
-  void setFlashModes(List<Integer> modes);
+    @DrawableRes
+    int iconFlashOn();
 
-  boolean shouldHideFlash();
+    @DrawableRes
+    int iconFlashOff();
 
-  long autoRecordDelay();
+    void setFlashModes(List<Integer> modes);
 
-  boolean audioDisabled();
+    boolean shouldHideFlash();
 
-  boolean shouldHideCameraFacing();
+    long autoRecordDelay();
+
+    boolean audioDisabled();
+
+    boolean shouldHideCameraFacing();
+
 }
