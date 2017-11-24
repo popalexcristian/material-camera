@@ -509,7 +509,9 @@ abstract class BaseCameraFragment extends Fragment
                 break;
             case FLASH_MODE_ALWAYS_ON:
                 drawable = ContextCompat.getDrawable(getActivity(), mInterface.iconFlashOn());
-                drawable.setColorFilter(mAppColor, PorterDuff.Mode.SRC_ATOP);
+                if (mAppColor != -1) {
+                    drawable.setColorFilter(mAppColor, PorterDuff.Mode.SRC_ATOP);
+                }
                 break;
             case FLASH_MODE_OFF:
             default:
