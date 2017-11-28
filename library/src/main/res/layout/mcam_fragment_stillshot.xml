@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
              xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:foreground="?selectableItemBackground"
              tools:ignore="UnusedAttribute">
 
-    <ImageView
+    <com.afollestad.materialcamera.util.InteractableCropView
         android:id="@+id/stillshot_imageview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:cropviewViewportOverlayColor="@android:color/black"
+        app:cropviewViewportRatio="1"/>
 
     <RelativeLayout
         android:id="@+id/controlsFrame"
@@ -23,12 +26,26 @@
         android:paddingRight="@dimen/mcam_content_inset"
         android:paddingTop="@dimen/mcam_content_inset_less">
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignBottom="@+id/confirm"
+            android:layout_alignEnd="@+id/confirm"
+            android:layout_alignLeft="@+id/confirm"
+            android:layout_alignRight="@+id/confirm"
+            android:layout_alignStart="@+id/confirm"
+            android:layout_alignTop="@+id/confirm"
+            android:layout_margin="30dp"
+            android:background="@android:color/white"/>
+
         <ImageView
             android:id="@+id/confirm"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            tools:src="@drawable/confirm_photo_btn"/>
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="5dp"
+            tools:src="@drawable/btn_camera_checked"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -46,5 +63,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/confirm_placeholder"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"/>
+
+        <ImageView
+            android:id="@+id/crop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            android:padding="10dp"/>
     </RelativeLayout>
 </FrameLayout>
