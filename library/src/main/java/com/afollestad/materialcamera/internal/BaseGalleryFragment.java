@@ -20,6 +20,7 @@ public abstract class BaseGalleryFragment extends Fragment
     ImageView mRetry;
     ImageView mConfirm;
     ImageView mCrop;
+    View mWhiteView;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -43,6 +44,7 @@ public abstract class BaseGalleryFragment extends Fragment
         mRetry = (ImageView) view.findViewById(R.id.retry);
         mConfirm = (ImageView) view.findViewById(R.id.confirm);
         mCrop = (ImageView) view.findViewById(R.id.crop);
+        mWhiteView = (View) view.findViewById(R.id.white_view);
         mCrop.setVisibility(View.GONE);
 
         mRetry.setVisibility(

@@ -152,6 +152,7 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
         mImageView.setCropEnabled(isCropping);
         mPreCropRatio = mImageView.getViewportRatio();
         mConfirm.setVisibility(isCropping ? View.GONE : View.VISIBLE);
+        mWhiteView.setVisibility(isCropping ? View.GONE : View.VISIBLE);
         mCrop.setImageResource(isCropping ? R.drawable.checkmark_ic : R.drawable.crop_ic);
     }
 
