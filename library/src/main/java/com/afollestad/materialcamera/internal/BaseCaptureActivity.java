@@ -315,7 +315,7 @@ public abstract class BaseCaptureActivity extends AppCompatActivity
 
     private void showInitialRecorder() {
         if (mPhotoPath != null && !TextUtils.isEmpty(mPhotoPath)) {
-            onShowStillshot(mPhotoPath);
+            onShowStillshot(mPhotoPath, false);
         } else {
             getFragmentManager().beginTransaction().replace(R.id.container, createFragment()).commit();
         }
@@ -351,7 +351,7 @@ public abstract class BaseCaptureActivity extends AppCompatActivity
                 finish();
                 return;
             }
-            useMedia(outputUri);
+            useMedia(outputUri, false);
         } else {
             if (!hasLengthLimit() || !continueTimerInPlayback()) {
                 // No countdown or countdown should not continue through playback, reset timer to 0
@@ -365,13 +365,13 @@ public abstract class BaseCaptureActivity extends AppCompatActivity
     }
 
     @Override
-    public void onShowStillshot(String outputUri) {
+    public void onShowStillshot(String outputUri, boolean isFromGallery) {
         if (shouldAutoSubmit()) {
-            useMedia(outputUri);
+            useMedia(outputUri, isFromGallery);
         } else {
             Fragment frag =
                     StillshotPreviewFragment.newInstance(
-                            outputUri, allowRetry(), getIntent().getIntExtra(CameraIntentKey.PRIMARY_COLOR, 0));
+                            outputUri, allowRetry(), getIntent().getIntExtra(CameraIntentKey.PRIMARY_COLOR, 0), isFromGallery);
             getFragmentManager().beginTransaction().replace(R.id.container, frag).commit();
         }
     }
@@ -424,12 +424,13 @@ public abstract class BaseCaptureActivity extends AppCompatActivity
     }
 
     @Override
-    public final void useMedia(String uri) {
+    public final void useMedia(String uri, boolean isFromGallery) {
         if (uri != null) {
             setResult(
                     Activity.RESULT_OK,
                     getIntent()
                             .putExtra(MaterialCamera.STATUS_EXTRA, MaterialCamera.STATUS_RECORDED)
+                            .putExtra(MaterialCamera.IS_FROM_GALLERY, isFromGallery)
                             .setDataAndType(Uri.parse(uri), useStillshot() ? "image/jpeg" : "video/mp4"));
         }
         finish();

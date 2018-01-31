@@ -45,6 +45,7 @@ public class MaterialCamera {
 
     public static final String ERROR_EXTRA = "mcam_error";
     public static final String STATUS_EXTRA = "mcam_status";
+    public static final String IS_FROM_GALLERY = "is_from_gallery";
 
     public static final int STATUS_RECORDED = 1;
     public static final int STATUS_RETRY = 2;

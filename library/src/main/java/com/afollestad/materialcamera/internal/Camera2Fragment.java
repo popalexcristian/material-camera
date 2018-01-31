@@ -597,7 +597,7 @@ public class Camera2Fragment extends BaseCameraFragment implements View.OnClickL
                 }
                 Log.d("stillshot", "picture saved to disk - jpeg, size: " + bytes.length);
                 mOutputUri = Uri.fromFile(outputPic).toString();
-                mInterface.onShowStillshot(mOutputUri);
+                mInterface.onShowStillshot(mOutputUri, false);
               }
             },
             mBackgroundHandler);

@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import com.afollestad.easyvideoplayer.EasyVideoCallback;
 import com.afollestad.easyvideoplayer.EasyVideoPlayer;
 import com.afollestad.materialcamera.R;
@@ -138,7 +139,7 @@ public class PlaybackVideoFragment extends Fragment
       mPlayer.release();
       mPlayer = null;
     }
-    if (mInterface != null) mInterface.useMedia(mOutputUri);
+    if (mInterface != null) mInterface.useMedia(mOutputUri, false);
   }
 
   @Override

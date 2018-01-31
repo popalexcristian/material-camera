@@ -32,13 +32,15 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
     private boolean mIsCropping;
     private int mRequestedOrientation;
     private float mPreCropRatio;
+    private boolean isFromGallery;
 
     public static StillshotPreviewFragment newInstance(
-            String outputUri, boolean allowRetry, int primaryColor) {
+            String outputUri, boolean allowRetry, int primaryColor, boolean isFromGallery) {
         final StillshotPreviewFragment fragment = new StillshotPreviewFragment();
         fragment.setRetainInstance(true);
         Bundle args = new Bundle();
         args.putString("output_uri", outputUri);
+        args.putBoolean("is_from_gallery", isFromGallery);
         args.putBoolean(CameraIntentKey.ALLOW_RETRY, allowRetry);
         fragment.setArguments(args);
         return fragment;
@@ -55,6 +57,7 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mImageView = view.findViewById(R.id.stillshot_imageview);
+
 
         mRetry.setOnClickListener(this);
         mConfirm.setOnClickListener(this);
@@ -136,7 +139,7 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
             } finally {
                 try {
                     if (out != null) {
-                        mInterface.useMedia(mOutputUri);
+                        mInterface.useMedia(mOutputUri, isFromGallery);
                         out.close();
                     }
                 } catch (IOException e) {

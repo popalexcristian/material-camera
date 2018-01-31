@@ -541,7 +541,7 @@ abstract class BaseCameraFragment extends Fragment
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                         String picturePath = cursor.getString(columnIndex);
                         cursor.close();
-                        mInterface.onShowStillshot(picturePath);
+                        mInterface.onShowStillshot(picturePath, true);
                     }
                 } catch (Exception e) {
                     Log.e("error", e.getMessage());
