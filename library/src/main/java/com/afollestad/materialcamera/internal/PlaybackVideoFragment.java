@@ -139,7 +139,7 @@ public class PlaybackVideoFragment extends Fragment
       mPlayer.release();
       mPlayer = null;
     }
-    if (mInterface != null) mInterface.useMedia(mOutputUri, false);
+    if (mInterface != null) mInterface.useMedia(mOutputUri);
   }
 
   @Override

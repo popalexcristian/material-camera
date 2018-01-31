@@ -557,7 +557,7 @@ public class CameraFragment extends BaseCameraFragment implements View.OnClickLi
                                         if (e == null) {
                                             Log.d("CameraFragment", "Picture saved to disk - jpeg, size: " + data.length);
                                             mOutputUri = Uri.fromFile(outputPic).toString();
-                                            mInterface.onShowStillshot(mOutputUri, false);
+                                            mInterface.onShowStillshot(mOutputUri);
                                             //mCamera.startPreview();
                                             mButtonStillshot.setEnabled(true);
                                         } else {
@@ -573,6 +573,9 @@ public class CameraFragment extends BaseCameraFragment implements View.OnClickLi
         //            mCamera.enableShutterSound(false);
         //        }
 
+        if (getActivity() instanceof StartGallery) {
+            ((StartGallery) getActivity()).setIsPickingFromGallery(false);
+        }
         mButtonStillshot.setEnabled(false);
         mCamera.takePicture(shutterCallback, rawCallback, jpegCallback);
     }

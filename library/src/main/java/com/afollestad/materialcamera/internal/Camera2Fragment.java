@@ -597,7 +597,7 @@ public class Camera2Fragment extends BaseCameraFragment implements View.OnClickL
                 }
                 Log.d("stillshot", "picture saved to disk - jpeg, size: " + bytes.length);
                 mOutputUri = Uri.fromFile(outputPic).toString();
-                mInterface.onShowStillshot(mOutputUri, false);
+                mInterface.onShowStillshot(mOutputUri);
               }
             },
             mBackgroundHandler);
@@ -927,6 +927,9 @@ public class Camera2Fragment extends BaseCameraFragment implements View.OnClickL
    *     https://github.com/googlesamples/android-Camera2Basic/blob/master/Application/src/main/java/com/example/android/camera2basic/Camera2BasicFragment.java
    */
   public void takeStillshot() {
+    if (getActivity() instanceof StartGallery) {
+      ((StartGallery) getActivity()).setIsPickingFromGallery(false);
+    }
     lockFocus();
   }
 

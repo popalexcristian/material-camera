@@ -526,10 +526,6 @@ abstract class BaseCameraFragment extends Fragment
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (getActivity() instanceof StartGallery) {
-            ((StartGallery) getActivity()).setIsPickingFromGallery(false);
-        }
-
         if (resultCode == RESULT_OK) {
             if (requestCode == SELECT_FILE) {
                 Uri mCapturedImageURI = data.getData();
@@ -541,7 +537,7 @@ abstract class BaseCameraFragment extends Fragment
                         int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
                         String picturePath = cursor.getString(columnIndex);
                         cursor.close();
-                        mInterface.onShowStillshot(picturePath, true);
+                        mInterface.onShowStillshot(picturePath);
                     }
                 } catch (Exception e) {
                     Log.e("error", e.getMessage());

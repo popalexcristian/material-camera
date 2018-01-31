@@ -315,7 +315,7 @@ public abstract class BaseCaptureActivity extends AppCompatActivity
 
     private void showInitialRecorder() {
         if (mPhotoPath != null && !TextUtils.isEmpty(mPhotoPath)) {
-            onShowStillshot(mPhotoPath, false);
+            onShowStillshot(mPhotoPath);
         } else {
             getFragmentManager().beginTransaction().replace(R.id.container, createFragment()).commit();
         }
@@ -351,7 +351,7 @@ public abstract class BaseCaptureActivity extends AppCompatActivity
                 finish();
                 return;
             }
-            useMedia(outputUri, false);
+            useMedia(outputUri);
         } else {
             if (!hasLengthLimit() || !continueTimerInPlayback()) {
                 // No countdown or countdown should not continue through playback, reset timer to 0
@@ -365,13 +365,14 @@ public abstract class BaseCaptureActivity extends AppCompatActivity
     }
 
     @Override
-    public void onShowStillshot(String outputUri, boolean isFromGallery) {
+    public void onShowStillshot(String outputUri) {
         if (shouldAutoSubmit()) {
-            useMedia(outputUri, isFromGallery);
+            useMedia(outputUri);
         } else {
+
             Fragment frag =
                     StillshotPreviewFragment.newInstance(
-                            outputUri, allowRetry(), getIntent().getIntExtra(CameraIntentKey.PRIMARY_COLOR, 0), isFromGallery);
+                            outputUri, allowRetry(), getIntent().getIntExtra(CameraIntentKey.PRIMARY_COLOR, 0));
             getFragmentManager().beginTransaction().replace(R.id.container, frag).commit();
         }
     }
@@ -424,13 +425,13 @@ public abstract class BaseCaptureActivity extends AppCompatActivity
     }
 
     @Override
-    public final void useMedia(String uri, boolean isFromGallery) {
+    public final void useMedia(String uri) {
         if (uri != null) {
             setResult(
                     Activity.RESULT_OK,
                     getIntent()
                             .putExtra(MaterialCamera.STATUS_EXTRA, MaterialCamera.STATUS_RECORDED)
-                            .putExtra(MaterialCamera.IS_FROM_GALLERY, isFromGallery)
+                            .putExtra(MaterialCamera.IS_FROM_GALLERY, isPickingFromGallery())
                             .setDataAndType(Uri.parse(uri), useStillshot() ? "image/jpeg" : "video/mp4"));
         }
         finish();
@@ -622,6 +623,10 @@ public abstract class BaseCaptureActivity extends AppCompatActivity
     @Override
     public boolean shouldHideCameraFacing() {
         return !getIntent().getBooleanExtra(CameraIntentKey.ALLOW_CHANGE_CAMERA, false);
+    }
+
+    public boolean isPickingFromGallery() {
+        return misPickingFromGallery;
     }
 
     @Override

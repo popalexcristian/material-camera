@@ -15,7 +15,7 @@ public interface BaseCaptureInterface {
 
     void onShowPreview(@Nullable String outputUri, boolean countdownIsAtZero);
 
-    void onShowStillshot(String outputUri, boolean isFromCamera);
+    void onShowStillshot(String outputUri);
 
     void setRecordingStart(long start);
 
@@ -50,7 +50,7 @@ public interface BaseCaptureInterface {
 
     Object getBackCamera();
 
-    void useMedia(String uri, boolean isFromGallery);
+    void useMedia(String uri);
 
     boolean shouldAutoSubmit();
 

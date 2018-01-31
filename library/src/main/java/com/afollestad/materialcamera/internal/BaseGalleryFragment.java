@@ -21,7 +21,6 @@ public abstract class BaseGalleryFragment extends Fragment
     ImageView mConfirm;
     ImageView mCrop;
     View mWhiteView;
-    boolean isFromGallery;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -41,7 +40,6 @@ public abstract class BaseGalleryFragment extends Fragment
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mOutputUri = getArguments().getString("output_uri");
-        isFromGallery = getArguments().getBoolean("is_from_gallery");
         mControlsFrame = view.findViewById(R.id.controlsFrame);
         mRetry = (ImageView) view.findViewById(R.id.retry);
         mConfirm = (ImageView) view.findViewById(R.id.confirm);
@@ -56,10 +54,6 @@ public abstract class BaseGalleryFragment extends Fragment
     @Override
     public String getOutputUri() {
         return getArguments().getString("output_uri");
-    }
-
-    public boolean isFromGallery() {
-        return isFromGallery;
     }
 
     void showDialog(String title, String errorMsg) {
