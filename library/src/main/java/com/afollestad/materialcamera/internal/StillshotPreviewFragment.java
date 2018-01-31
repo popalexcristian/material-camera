@@ -124,6 +124,9 @@ public class StillshotPreviewFragment extends BaseGalleryFragment {
                 setIsCropping(false);
                 mImageView.setViewportRatio(mPreCropRatio);
             } else {
+                if (getActivity() instanceof BaseCameraFragment.StartGallery) {
+                    ((BaseCameraFragment.StartGallery) getActivity()).setIsPickingFromGallery(false);
+                }
                 mInterface.onRetry(mOutputUri);
             }
         } else if (v.getId() == R.id.confirm) {
